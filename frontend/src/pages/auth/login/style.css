@@ -1,0 +1,46 @@
+/* Основные стили для страницы входа/регистрации */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('C:\Users\user\Desktop\Kursavayrabota\frontend\src\assets\photo-1506126613408-eca07ce68773.avif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Затемнение фона */
+
+.auth-overlay{
+   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+ z-index: 0;
+}
+
+
+
+
+
+
+
+/* Контейнер для формы */
+.auth-form-container {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый фон */
+  backdrop-filter: blur(10px); /* Размытие фона */
+  padding: 40px;
+  border-radius: 15px;
+  width: 100%;
+  width: 420px;
+  text-align: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
