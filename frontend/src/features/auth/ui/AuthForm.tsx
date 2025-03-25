@@ -1,65 +1,19 @@
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { Controller } from "react-hook-form";
 import { Form, Input, Button, Checkbox } from "antd";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuthForm } from "../lib/useAuthForm";
+import { AuthFormProps } from "../model/types";
 import "./styleform.css";
 
-const authSchema = (type: "login" | "registration") =>
-  z
-    .object({
-      username: z
-        .string()
-        .min(3, "Имя пользователя должно быть не менее 3 символов"),
-      password: z.string().min(6, "Пароль должен быть не менее 6 символов"),
-      confirmPassword:
-        type === "registration"
-          ? z.string().min(6, "Пароль должен быть не менее 6 символов")
-          : z.literal("").optional(),
-      remember: z.boolean().optional(),
-    })
-    .refine(
-      (data) => data.password === data.confirmPassword || type === "login",
-      {
-        message: "Пароли не совпадают",
-        path: ["confirmPassword"],
-      }
-    );
-
-type AuthFormData = z.infer<ReturnType<typeof authSchema>>;
-
-type AuthFormProps = {
-  type: "login" | "registration";
-};
-
 export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
-  const navigate = useNavigate();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AuthFormData>({
-    resolver: zodResolver(authSchema(type)),
-    defaultValues: {
-      username: "",
-      password: "",
-      confirmPassword: type === "registration" ? "" : undefined,
-      remember: false,
-    },
-  });
-
-  const onSubmit = (data: AuthFormData) => {
-    console.log("Форма успешно отправлена:", data);
-    navigate("/dashboard");
-  };
+  const { control, handleSubmit, errors, onSubmit } = useAuthForm(type);
 
   return (
     <div className="auth-container">
       <div className="auth-overlay"></div>
       <div className="auth-form-container">
         <h2 className="auth-title" style={{ marginBottom: "20px" }}>
-          {type === "login" ? "Вход в систему" : "Регистрация"}{" "}
+          {type === "login" ? "Вход в систему" : "Регистрация"}
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
